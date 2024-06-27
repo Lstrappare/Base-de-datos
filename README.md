@@ -103,7 +103,10 @@ CREATE TABLE Historial_Precios (
 ---
 
 
-## Modelo ER
+## Modelo EER
+
+![Base de datos](https://github.com/Lstrappare/Base-de-datos/assets/119477560/5ca65206-ea9b-4fdb-9d15-5116822e44fb)
+
 
 ## Procedimientos almacenados (15)
 
@@ -431,3 +434,5 @@ JOIN Cuentas ON Clientes.ClienteID = Cuentas.ClienteID
 JOIN Transacciones ON Cuentas.CuentaID = Transacciones.CuentaID
 JOIN Criptomonedas ON Transacciones.CriptomonedaID = Criptomonedas.CriptomonedaID;
 ```
+
+## Capturas del Proyecto
