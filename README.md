@@ -459,7 +459,10 @@ JOIN Criptomonedas ON Transacciones.CriptomonedaID = Criptomonedas.CriptomonedaI
 
 ---
 ## Links del Codigo y muestra del funcionamiento en Youtube
-https://github.com/Lstrappare/Base-de-datos
+
+Youtube: https://youtu.be/aF1hCJ9GZ6g?si=guIZHg34dFpys4lj
+
+Github: https://github.com/Lstrappare/Base-de-datos
 
 
 
