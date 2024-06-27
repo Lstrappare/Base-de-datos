@@ -98,6 +98,18 @@ CREATE TABLE Historial_Precios (
     FOREIGN KEY (CriptomonedaID) REFERENCES Criptomonedas(CriptomonedaID)
 );
 
+CREATE TABLE Transacciones (
+    TransaccionID INT AUTO_INCREMENT PRIMARY KEY,
+    CuentaID INT,
+    TipoTransaccionID INT,
+    CriptomonedaID INT,
+    Monto DECIMAL(18,2),
+    FechaTransaccion DATE,
+    FOREIGN KEY (CuentaID) REFERENCES Cuentas(CuentaID),
+    FOREIGN KEY (TipoTransaccionID) REFERENCES Tipo_Transacciones(TipoTransaccionID),
+    FOREIGN KEY (CriptomonedaID) REFERENCES Criptomonedas(CriptomonedaID)
+);
+
 ```
 
 ---
