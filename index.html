@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banco Criptomonedas - Proyecto Base de Datos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            color: #1a202c;
+            margin-bottom: 0.5rem;
+        }
+        .header {
+            background-color: #2d3748;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .content {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 2rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .section {
+            margin-bottom: 2rem;
+        }
+        .code-block {
+            background-color: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .code-block code {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .footer {
+            background-color: #2d3748;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .img-container {
+            text-align: center;
+            margin: 1rem 0;
+        }
+        .img-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .links a {
+            color: #3182ce;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .links a:hover {
+            color: #63b3ed;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Banco Criptomonedas</h1>
+        <p>Proyecto Base de Datos</p>
+        <p>Hecho por Cisneros Valero José Manuel</p>
+    </div>
+
+    <div class="content">
+        <div class="section">
+            <h2>Desarrollado la base de datos en MYSQL con Express y Node.js en el BACKEND</h2>
+            <p>Las interfaces desarrolladas en REACT (FRONTEND)</p>
+        </div>
+
+        <div class="section">
+            <h2>Introducción</h2>
+            <p>Este proyecto tiene como objetivo desarrollar un <strong>sistema de bases de datos para un banco de criptomonedas.</strong> Este sistema permitirá a los usuarios gestionar sus cuentas y carteras de criptomonedas, realizar transacciones y consultar información relevante de manera <strong>segura</strong> y <strong>eficiente</strong>.</p>
+        </div>
+
+        <div class="section">
+            <h2>Querys</h2>
+            <div class="code-block">
+                <code>
+                    CREATE DATABASE BancoCriptomonedas;
+                    USE BancoCriptomonedas;
+
+                    -- Tabla de Clientes
+                    CREATE TABLE Clientes (
+                        ClienteID INT AUTO_INCREMENT PRIMARY KEY,
+                        Nombre VARCHAR(100) NOT NULL,
+                        Apellido VARCHAR(100) NOT NULL,
+                        Email VARCHAR(100) NOT NULL UNIQUE,
+                        Telefono VARCHAR(15),
+                        FechaRegistro DATE DEFAULT (CURDATE())
+                    );
+
+                    -- Tabla de Tipos de Cuentas
+                    CREATE TABLE Tipos_Cuentas (
+                        TipoCuentaID INT AUTO_INCREMENT PRIMARY KEY,
+                        Descripcion VARCHAR(50) NOT NULL
+                    );
+
+                    -- Tabla de Cuentas
+                    CREATE TABLE Cuentas (
+                        CuentaID INT AUTO_INCREMENT PRIMARY KEY,
+                        ClienteID INT,
+                        TipoCuentaID INT,
+                        NumeroCuenta VARCHAR(20) UNIQUE,
+                        Saldo DECIMAL(18, 2) DEFAULT 0.00,
+                        FechaApertura DATE DEFAULT (CURDATE()),
+                        FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID),
+                        FOREIGN KEY (TipoCuentaID) REFERENCES Tipos_Cuentas(TipoCuentaID)
+                    );
+
+                    -- Tabla de Criptomonedas
+                    CREATE TABLE Criptomonedas (
+                        CriptomonedaID INT AUTO_INCREMENT PRIMARY KEY,
+                        Nombre VARCHAR(50) NOT NULL UNIQUE,
+                        Simbolo VARCHAR(10) NOT NULL UNIQUE,
+                        Descripcion TEXT
+                    );
+
+                    -- Tabla de Transacciones
+                    CREATE TABLE Transacciones (
+                        TransaccionID INT AUTO_INCREMENT PRIMARY KEY,
+                        CuentaID INT,
+                        TipoTransaccionID INT,
+                        CriptomonedaID INT,
+                        Monto DECIMAL(18, 8) NOT NULL,
+                        FechaTransaccion DATETIME DEFAULT CURRENT_TIMESTAMP,
+                        FOREIGN KEY (CuentaID) REFERENCES Cuentas(CuentaID),
+                        FOREIGN KEY (TipoTransaccionID) REFERENCES Tipo_Transacciones(TipoTransaccionID),
+                        FOREIGN KEY (CriptomonedaID) REFERENCES Criptomonedas(CriptomonedaID)
+                    );
+
+                    -- Tabla de Tipos de Transacciones
+                    CREATE TABLE Tipo_Transacciones (
+                        TipoTransaccionID INT AUTO_INCREMENT PRIMARY KEY,
+                        Descripcion VARCHAR(50) NOT NULL
+                    );
+
+                    -- Tabla de Carteras
+                    CREATE TABLE Carteras (
+                        CarteraID INT AUTO_INCREMENT PRIMARY KEY,
+                        ClienteID INT,
+                        Nombre VARCHAR(100) NOT NULL,
+                        FechaCreacion DATE DEFAULT (CURDATE()),
+                        FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID)
+                    );
+
+                    -- Tabla de Saldo de Carteras
+                    CREATE TABLE Saldo_Carteras (
+                        SaldoCarteraID INT AUTO_INCREMENT PRIMARY KEY,
+                        CarteraID INT,
+                        CriptomonedaID INT,
+                        Saldo DECIMAL(18, 8) DEFAULT 0.00,
+                        FOREIGN KEY (CarteraID) REFERENCES Carteras(CarteraID),
+                        FOREIGN KEY (CriptomonedaID) REFERENCES Criptomonedas(CriptomonedaID)
+                    );
+
+                    -- Tabla de Historial de Precios
+                    CREATE TABLE Historial_Precios (
+                        HistorialPrecioID INT AUTO_INCREMENT PRIMARY KEY,
+                        CriptomonedaID INT,
+                        Fecha DATE NOT NULL,
+                        Precio DECIMAL(18, 8) NOT NULL,
+                        FOREIGN KEY (CriptomonedaID) REFERENCES Criptomonedas(CriptomonedaID)
+                    );
+
+                    CREATE TABLE Transacciones (
+                        TransaccionID INT AUTO_INCREMENT PRIMARY KEY,
+                        CuentaID INT,
+                        TipoTransaccionID INT,
+                        CriptomonedaID INT,
+                        Monto DECIMAL(18,2),
+                        FechaTransaccion DATE,
+                        FOREIGN KEY (CuentaID) REFERENCES Cuentas(CuentaID),
+                        FOREIGN KEY (TipoTransaccionID) REFERENCES Tipo_Transacciones(TipoTransaccionID),
+                        FOREIGN KEY (CriptomonedaID) REFERENCES Criptomonedas(CriptomonedaID)
+                    );
+                </code>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Modelo EER</h2>
+            <div class="img-container">
+                <img src="https://github.com/Lstrappare/Base-de-datos/assets/119477560/5ca65206-ea9b-4fdb-9d15-5116822e44fb" alt="Modelo EER">
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Procedimientos almacenados (15)</h2>
+            <div class="code-block">
+                <code>
+                    DELIMITER //
+
+                    -- Procedimiento para agregar un cliente
+                    CREATE PROCEDURE AgregarCliente(
+                        IN p_Nombre VARCHAR(100),
+                        IN p_Apellido VARCHAR(100),
+                        IN p_Email VARCHAR(100),
+                        IN p_Telefono VARCHAR(15)
+                    )
+                    BEGIN
+                        INSERT INTO Clientes (Nombre, Apellido, Email, Telefono, FechaRegistro)
+                        VALUES (p_Nombre, p_Apellido, p_Email, p_Telefono, CURDATE());
+                    END //
+
+                    -- Procedimiento para modificar un cliente
+                    CREATE PROCEDURE ModificarCliente(
+                        IN p_ClienteID INT,
+                        IN p_Nombre VARCHAR(100),
+                        IN p_Apellido VARCHAR(100),
+                        IN p_Email VARCHAR(100),
+                        IN p_Telefono VARCHAR(15)
+                    )
+                    BEGIN
+                        UPDATE Clientes
+                        SET Nombre = p_Nombre, Apellido = p_Apellido, Email = p_Email, Telefono = p_Telefono
+                        WHERE ClienteID = p_ClienteID;
+                    END //
+
+                    -- Procedimiento para eliminar un cliente
+                    CREATE PROCEDURE EliminarCliente(
+                        IN p_ClienteID INT
+                    )
+                    BEGIN
+                        DELETE FROM Clientes WHERE ClienteID = p_ClienteID;
+                    END //
+
+                    -- Procedimiento para agregar una cuenta
+                    CREATE PROCEDURE AgregarCuenta(
+                        IN p_ClienteID INT,
+                        IN p_TipoCuentaID INT,
+                        IN p_NumeroCuenta VARCHAR(20),
+                        IN p_Saldo DECIMAL(18, 2)
+                    )
+                    BEGIN
+                        INSERT INTO Cuentas (ClienteID, TipoCuentaID, NumeroCuenta, Saldo, FechaApertura)
+                        VALUES (p_ClienteID, p_TipoCuentaID, p_NumeroCuenta, p_Saldo, CURDATE());
+                    END //
+
+                    -- Procedimiento para modificar una cuenta
+                    CREATE PROCEDURE ModificarCuenta(
+                        IN p_CuentaID INT,
+                        IN p_NumeroCuenta VARCHAR(20),
+                        IN p_Saldo DECIMAL(18, 2)
+                    )
+                    BEGIN
+                        UPDATE Cuentas
+                        SET NumeroCuenta = p_NumeroCuenta, Saldo = p_Saldo
+                        WHERE CuentaID = p_CuentaID;
+                    END //
+
+                    -- Procedimiento para eliminar una cuenta
+                    CREATE PROCEDURE EliminarCuenta(
+                        IN p_CuentaID INT
+                    )
+                    BEGIN
+                        DELETE FROM Cuentas WHERE CuentaID = p_CuentaID;
+                    END //
+
+                    -- Procedimiento para agregar una criptomoneda
+                    CREATE PROCEDURE AgregarCriptomoneda(
+                        IN p_Nombre VARCHAR(50),
+                        IN p_Simbolo VARCHAR(10),
+                        IN p_Descripcion TEXT
+                    )
+                    BEGIN
+                        INSERT INTO Criptomonedas (Nombre, Simbolo, Descripcion)
+                        VALUES (p_Nombre, p_Simbolo, p_Descripcion);
+                    END //
+
+                    -- Procedimiento para modificar una criptomoneda
+                    CREATE PROCEDURE ModificarCriptomoneda(
+                        IN p_CriptomonedaID INT,
+                        IN p_Nombre VARCHAR(50),
+                        IN p_Simbolo VARCHAR(10),
+                        IN p_Descripcion TEXT
+                    )
+                    BEGIN
+                        UPDATE Criptomonedas
+                        SET Nombre = p_Nombre, Simbolo = p_Simbolo, Descripcion = p_Descripcion
+                        WHERE CriptomonedaID = p_CriptomonedaID;
+                    END //
+
+                    -- Procedimiento para eliminar una criptomoneda
+                    CREATE PROCEDURE EliminarCriptomoneda(
+                        IN p_CriptomonedaID INT
+                    )
+                    BEGIN
+                        DELETE FROM Criptomonedas WHERE CriptomonedaID = p_CriptomonedaID;
+                    END //
+
+                    -- Procedimiento para agregar una transacción
+                    CREATE PROCEDURE AgregarTransaccion(
+                        IN p_CuentaID INT,
+                        IN p_TipoTransaccionID INT,
+                        IN p_CriptomonedaID INT,
+                        IN p_Monto DECIMAL(18, 2)
+                    )
+                    BEGIN
+                        INSERT INTO Transacciones (CuentaID, TipoTransaccionID, CriptomonedaID, Monto, FechaTransaccion)
+                        VALUES (p_CuentaID, p_TipoTransaccionID, p_CriptomonedaID, p_Monto, NOW());
+                    END //
+
+                    -- Procedimiento para modificar una transacción
+                    CREATE PROCEDURE ModificarTransaccion(
+                        IN p_TransaccionID INT,
+                        IN p_Monto DECIMAL(18, 2)
+                    )
+                    BEGIN
+                        UPDATE Transacciones
+                        SET Monto = p_Monto
+                        WHERE TransaccionID = p_TransaccionID;
+                    END //
+
+                    -- Procedimiento para eliminar una transacción
+                    CREATE PROCEDURE EliminarTransaccion(
+                        IN p_TransaccionID INT
+                    )
+                    BEGIN
+                        DELETE FROM Transacciones WHERE TransaccionID = p_TransaccionID;
+                    END //
+
+                    -- Procedimiento para agregar una cartera
+                    CREATE PROCEDURE AgregarCartera(
+                        IN p_ClienteID INT,
+                        IN p_Nombre VARCHAR(100)
+                    )
+                    BEGIN
+                        INSERT INTO Carteras (ClienteID, Nombre, FechaCreacion)
+                        VALUES (p_ClienteID, p_Nombre, CURDATE());
+                    END //
+
+                    -- Procedimiento para modificar una cartera
+                    CREATE PROCEDURE ModificarCartera(
+                        IN p_CarteraID INT,
+                        IN p_Nombre VARCHAR(100)
+                    )
+                    BEGIN
+                        UPDATE Carteras
+                        SET Nombre = p_Nombre
+                        WHERE CarteraID = p_CarteraID;
+                    END //
+
+                    -- Procedimiento para eliminar una cartera
+                    CREATE PROCEDURE EliminarCartera(
+                        IN p_CarteraID INT
+                    )
+                    BEGIN
+                        DELETE FROM Carteras WHERE CarteraID = p_CarteraID;
+                    END //
+
+                    DELIMITER ;
+                </code>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2024 Banco Criptomonedas. Todos los derechos reservados.</p>
+            <div class="links">
+                <p><a href="https://github.com/Lstrappare/Base-de-datos">GitHub del Proyecto</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
