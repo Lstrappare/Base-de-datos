@@ -17,6 +17,7 @@ import ModificarCliente from './pages/ModificarCliente';
 import ModificarCriptomoneda from './pages/ModificarCriptomoneda';
 import ModificarCuenta from './pages/ModificarCuenta';
 import ModificarSaldoCartera from './pages/ModificarSaldoCartera';
+import EliminarSaldoCartera from './pages/EliminarSaldoCartera';
 
 const App = () => {
   return (
@@ -39,6 +40,7 @@ const App = () => {
         <Route path="/modificar-criptomoneda" element={<ModificarCriptomoneda />} />
         <Route path="/modificar-cuenta" element={<ModificarCuenta />} />
         <Route path="/modificar-saldo-cartera" element={<ModificarSaldoCartera />} />
+        <Route path="/eliminar-saldo-cartera" element={<EliminarSaldoCartera />} />
       </Routes>
 
   );
