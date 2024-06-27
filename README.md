@@ -436,3 +436,15 @@ JOIN Criptomonedas ON Transacciones.CriptomonedaID = Criptomonedas.CriptomonedaI
 ```
 
 ## Capturas del Proyecto
+![inicio](https://github.com/Lstrappare/Base-de-datos/assets/119477560/ab0ef203-101c-46c8-9b8b-2030986c22c9)
+![Inicio2](https://github.com/Lstrappare/Base-de-datos/assets/119477560/c93ef87f-35bc-406f-8079-8903791206cc)
+![Agregar](https://github.com/Lstrappare/Base-de-datos/assets/119477560/139c1b01-f5d9-447b-ac54-b290c8c67ea5)
+![modificar](https://github.com/Lstrappare/Base-de-datos/assets/119477560/df37e194-1462-45a7-8f11-ba3b10b226be)
+![Captura de pantalla_2024-06-27_13-46-57](https://github.com/Lstrappare/Base-de-datos/assets/119477560/9d500668-0a68-401b-b189-0f104e82c0ff)
+
+![tablas](https://github.com/Lstrappare/Base-de-datos/assets/119477560/70b28c66-84e7-47ab-875f-f39ea3b6ad05)
+![tablas2](https://github.com/Lstrappare/Base-de-datos/assets/119477560/0652acf9-9d7b-4f9d-934a-06fd29c2edfc)
+
+
+
+
